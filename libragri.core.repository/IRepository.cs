@@ -13,6 +13,8 @@ namespace libragri.core.repository
         void Delete(TEntity entity);
         IList<TEntity> GetAll();
         
+        IList<TEntity> Submodule();
+        
         IList<TEntity> FindWhere(System.Linq.Expressions.Expression<System.Func<TEntity, bool>> predicate);
     }
 }
