@@ -9,7 +9,7 @@ namespace libragri.core.repository
     public interface IRepository<TId,TEntity> where TEntity : Entity<TId>
     {
         TEntity GetById(TId Id);
-        void Upsert(TEntity entity);
+        TEntity Upsert(TEntity entity);
         void Delete(TEntity entity);
         IList<TEntity> GetAll();
         

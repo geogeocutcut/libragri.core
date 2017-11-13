@@ -52,6 +52,8 @@ namespace libragri.core.repository.inmemorydb
                 data[typeof(TEntity)]= new Dictionary<TId,object>();
             }
             data[typeof(TEntity)][entity.Id]=entity;
+
+            return entity;
         }
     }
 }
