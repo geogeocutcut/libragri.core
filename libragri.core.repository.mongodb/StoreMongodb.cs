@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using libragri.core.common;
 using libragri.core.repository;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace libragri.core.repository.mongodb
 {
@@ -11,9 +14,9 @@ namespace libragri.core.repository.mongodb
     {
         private readonly IMongoDatabase database;
 
-        public StoreMongodb(IMongoClient client)
+        public StoreMongodb(IMongoClient client,string connection)
         {
-            this.database = client.GetDatabase(ConfigurationManager.AppSettings["MongoDatabase"]);
+            this.database = client.GetDatabase(connection);
         }
 
         public IList<TEntity> FindAll<TEntity>() where TEntity:Entity<TId>
@@ -22,30 +25,30 @@ namespace libragri.core.repository.mongodb
         
         }
 
-        public async Task<TEntity> FindById<TEntity>(TId id) where TEntity:Entity<TId>
+        public TEntity FindById<TEntity>(TId id) where TEntity:Entity<TId>
         { 
-            return await this.database.GetCollection<TEntity>(typeof(TEntity).Name).Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            return this.database.GetCollection<TEntity>(typeof(TEntity).Name).Find(x => x.Id.Equals(id)).FirstOrDefault();
         }
 
-        public async Task<IList<TEntity>> FindWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity:Entity<TId>
+        public IList<TEntity> FindWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity:Entity<TId>
         {
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
-            return await collection.Find(predicate).ToListAsync();
+            return collection.Find(predicate).ToList();
         }
 
-        public async void Remove<TEntity>(TEntity entity) where TEntity:Entity<TId>
+        public void Remove<TEntity>(TEntity entity) where TEntity:Entity<TId>
         {
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
-            collection.DeleteOneAsync(x => x.Id.Equals(entity.Id));
+            collection.DeleteOne(x => x.Id.Equals(entity.Id));
         }
 
-        public async TEntity Upsert<TEntity>(TEntity entity) where TEntity:Entity<TId>
+        public TEntity Upsert<TEntity>(TEntity entity) where TEntity:Entity<TId>
         {
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
-            await collection.ReplaceOneAsync(
+            collection.ReplaceOne(
                     x => x.Id.Equals(entity.Id), 
                     entity, 
                     new UpdateOptions
@@ -53,7 +56,6 @@ namespace libragri.core.repository.mongodb
                         IsUpsert = true
                     }
                 );
-
             return entity;
         }
     }

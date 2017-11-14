@@ -37,9 +37,10 @@ namespace libragri.core.repository.mongodb
             return store.FindWhere<TEntity>(predicate);
         }
 
-        public void Upsert(TEntity entity)
+        public TEntity Upsert(TEntity entity)
         {
             store.Upsert<TEntity>(entity);
+            return entity;
         }
         
     }
