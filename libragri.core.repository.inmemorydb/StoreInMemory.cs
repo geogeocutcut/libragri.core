@@ -44,7 +44,7 @@ namespace libragri.core.repository.inmemorydb
             dataEntity?.Remove(entity.Id);
         }
 
-        public void Upsert<TEntity>(TEntity entity) where TEntity:Entity<TId>
+        public TEntity Upsert<TEntity>(TEntity entity) where TEntity:Entity<TId>
         {
             data.TryGetValue(typeof(TEntity),out var dataEntity);
             if(dataEntity==null)

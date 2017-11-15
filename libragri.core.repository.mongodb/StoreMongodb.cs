@@ -22,7 +22,6 @@ namespace libragri.core.repository.mongodb
         public IList<TEntity> FindAll<TEntity>() where TEntity:Entity<TId>
         {
             return this.database.GetCollection<TEntity>(typeof(TEntity).Name).Find(new BsonDocument()).ToList();
-        
         }
 
         public TEntity FindById<TEntity>(TId id) where TEntity:Entity<TId>
