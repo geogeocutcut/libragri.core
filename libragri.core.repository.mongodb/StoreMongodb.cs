@@ -19,35 +19,35 @@ namespace libragri.core.repository.mongodb
             this.database = client.GetDatabase(connection);
         }
 
-        public IList<TEntity> FindAll<TEntity>() where TEntity:Entity<TId>
+        public async Task<IList<TEntity>> GetAllAsync<TEntity>() where TEntity:Entity<TId>
         {
-            return this.database.GetCollection<TEntity>(typeof(TEntity).Name).Find(new BsonDocument()).ToList();
+            return (await this.database.GetCollection<TEntity>(typeof(TEntity).Name).FindAsync(new BsonDocument())).ToList();
         }
 
-        public TEntity FindById<TEntity>(TId id) where TEntity:Entity<TId>
+        public async Task<TEntity> GetByIdAsync<TEntity>(TId id) where TEntity:Entity<TId>
         { 
-            return this.database.GetCollection<TEntity>(typeof(TEntity).Name).Find(x => x.Id.Equals(id)).FirstOrDefault();
+            return (await this.database.GetCollection<TEntity>(typeof(TEntity).Name).FindAsync(x => x.Id.Equals(id))).FirstOrDefault();
         }
 
-        public IList<TEntity> FindWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity:Entity<TId>
+        public async Task<IList<TEntity>> FindAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity:Entity<TId>
         {
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
-            return collection.Find(predicate).ToList();
+            return (await collection.FindAsync(predicate)).ToList();
         }
 
-        public void Remove<TEntity>(TEntity entity) where TEntity:Entity<TId>
+        public async Task RemoveAsync<TEntity>(TEntity entity) where TEntity:Entity<TId>
         {
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
-            collection.DeleteOne(x => x.Id.Equals(entity.Id));
+            await collection.DeleteOneAsync(x => x.Id.Equals(entity.Id));
         }
 
-        public TEntity Upsert<TEntity>(TEntity entity) where TEntity:Entity<TId>
+        public async Task<TEntity> UpsertAsync<TEntity>(TEntity entity) where TEntity:Entity<TId>
         {
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
-            collection.ReplaceOne(
+            await collection.ReplaceOneAsync(
                     x => x.Id.Equals(entity.Id), 
                     entity, 
                     new UpdateOptions

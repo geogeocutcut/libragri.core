@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using libragri.core.common;
 using libragri.core.repository;
 
@@ -16,30 +17,30 @@ namespace libragri.core.repository.inmemorydb
             this.store=uow.Store;
         }
 
-        public void Delete(TEntity entity)
+        public async Task DeleteAsync(TEntity entity)
         {
-            store.Remove<TEntity>(entity);
+            await store.RemoveAsync<TEntity>(entity);
         }
 
-        public IList<TEntity> GetAll()
+        public async Task<IList<TEntity>> GetAllAsync()
         {
-            return store.FindAll<TEntity>();
+            return await store.GetAllAsync<TEntity>();
         }
 
-        public TEntity GetById(TId id)
+        public async Task<TEntity> GetByIdAsync(TId id)
         {
-            return store.FindById<TEntity>(id);
+            return await store.GetByIdAsync<TEntity>(id);
         }
 
         
-        public IList<TEntity> FindWhere(System.Linq.Expressions.Expression<System.Func<TEntity, bool>> predicate)
+        public async Task<IList<TEntity>> FindAsync(System.Linq.Expressions.Expression<System.Func<TEntity, bool>> predicate)
         {
-            return store.FindWhere<TEntity>(predicate);
+            return await store.FindAsync<TEntity>(predicate);
         }
 
-        public TEntity Upsert(TEntity entity)
+        public async Task<TEntity> UpsertAsync(TEntity entity)
         {
-            store.Upsert<TEntity>(entity);
+            await store.UpsertAsync<TEntity>(entity);
             return entity;
         }
         

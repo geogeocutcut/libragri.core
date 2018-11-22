@@ -2,18 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using libragri.core.common;
 
 namespace libragri.core.repository
 {
     public interface IRepository<TId,TEntity> where TEntity : Entity<TId>
     {
-        TEntity GetById(TId Id);
-        TEntity Upsert(TEntity entity);
-        void Delete(TEntity entity);
-        IList<TEntity> GetAll();
+        Task<TEntity> GetByIdAsync(TId Id);
+        Task<TEntity> UpsertAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
+        Task<IList<TEntity>> GetAllAsync();
         
         
-        IList<TEntity> FindWhere(System.Linq.Expressions.Expression<System.Func<TEntity, bool>> predicate);
+        Task<IList<TEntity>> FindAsync(System.Linq.Expressions.Expression<System.Func<TEntity, bool>> predicate);
     }
 }

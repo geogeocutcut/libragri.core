@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using libragri.core.common;
 using libragri.core.repository;
 
@@ -10,19 +11,19 @@ namespace libragri.core.repository.mongodb
         {
             this.Store=Store;
         }
-        public void CommitTransaction()
+        public async Task CommitAsync()
+        {
+        }
+
+        public async Task BeginAsync()
+        {
+        }
+
+        public async Task RollbackAsync()
         {
         }
 
         public void Dispose()
-        {
-        }
-
-        public void OpenTransaction()
-        {
-        }
-
-        public void RollbackTransaction()
         {
         }
     }
