@@ -1,20 +1,17 @@
-
-
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using libragri.core.common;
-using libragri.core.repository;
 
-namespace libragri.core.repository.mongodb
+namespace libragri.core.repository
 {
-    public class RepositoryMongodb<TId, TEntity> : IRepository<TId, TEntity> where TEntity : Entity<TId>
+    public class Repository<TId, TEntity> : IRepository<TId, TEntity> where TEntity : Entity<TId>
     {
         IStore<TId> store;
 
-        public RepositoryMongodb(UnitOfWorkMongodb<TId> uow)
+        public Repository(IUnitOfWork<TId> uow)
         {
-            this.store=uow.Store;
+            this.store=uow.GetStore();
         }
 
         public async Task DeleteAsync(TEntity entity)

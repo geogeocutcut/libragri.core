@@ -6,10 +6,11 @@ namespace libragri.core.repository.inmemorydb
 {
     public class UnitOfWorkInMemory<TId> : IUnitOfWork<TId>
     {
-        public IStore<TId> Store { get; set; }
-        public UnitOfWorkInMemory(IStore<TId> Store )
+        private IStore<TId> _store;
+
+        public UnitOfWorkInMemory(IStore<TId> store )
         {
-            this.Store=Store;
+            this._store=store;
         }
         public async Task CommitAsync()
         {
@@ -27,6 +28,11 @@ namespace libragri.core.repository.inmemorydb
         
         public void Dispose()
         {
+        }
+
+        public IStore<TId> GetStore()
+        {
+            return this._store;
         }
     }
 }

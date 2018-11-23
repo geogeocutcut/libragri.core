@@ -6,10 +6,10 @@ namespace libragri.core.repository.mongodb
 {
     public class UnitOfWorkMongodb<TId> : IUnitOfWork<TId>
     {
-        public IStore<TId> Store { get; set; }
-        public UnitOfWorkMongodb(IStore<TId> Store )
+        public IStore<TId> _store { get; set; }
+        public UnitOfWorkMongodb(IStore<TId> store )
         {
-            this.Store=Store;
+            this._store=store;
         }
         public async Task CommitAsync()
         {
@@ -25,6 +25,11 @@ namespace libragri.core.repository.mongodb
 
         public void Dispose()
         {
+        }
+
+        public IStore<TId> GetStore()
+        {
+            return _store;
         }
     }
 }
