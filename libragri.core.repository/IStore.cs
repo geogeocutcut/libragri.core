@@ -9,6 +9,7 @@ namespace libragri.core.repository
 {
     public interface IStore<TId>
     {
+        
         Task<TEntity> GetByIdAsync<TEntity>(TId id) where TEntity : Entity<TId>;
         Task<TEntity> UpsertAsync<TEntity>(TEntity entity) where TEntity : Entity<TId>;
         Task RemoveAsync<TEntity>(TEntity entity) where TEntity : Entity<TId>;

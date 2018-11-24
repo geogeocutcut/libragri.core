@@ -2,12 +2,12 @@
 
 namespace libragri.core.common
 {
-    public class Entity<TId>
+    public abstract class Entity<TId>
     {
-        public TId Id { 
-            get; 
-            set; 
-        }
+        private TId _id;
+
+        public abstract TId GetId();
+        public abstract void SetId(TId id);
 
     }
 }

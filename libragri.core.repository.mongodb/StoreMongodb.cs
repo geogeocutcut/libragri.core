@@ -26,7 +26,7 @@ namespace libragri.core.repository.mongodb
 
         public async Task<TEntity> GetByIdAsync<TEntity>(TId id) where TEntity:Entity<TId>
         { 
-            return (await this.database.GetCollection<TEntity>(typeof(TEntity).Name).FindAsync(x => x.Id.Equals(id))).FirstOrDefault();
+            return (await this.database.GetCollection<TEntity>(typeof(TEntity).Name).FindAsync(x => x.GetId().Equals(id))).FirstOrDefault();
         }
 
         public async Task<IList<TEntity>> FindAsync<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity:Entity<TId>
@@ -40,7 +40,7 @@ namespace libragri.core.repository.mongodb
         {
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
-            await collection.DeleteOneAsync(x => x.Id.Equals(entity.Id));
+            await collection.DeleteOneAsync(x => x.GetId().Equals(entity.GetId()));
         }
 
         public async Task<TEntity> UpsertAsync<TEntity>(TEntity entity) where TEntity:Entity<TId>
@@ -48,7 +48,7 @@ namespace libragri.core.repository.mongodb
             var collection = this.database.GetCollection<TEntity>(typeof(TEntity).Name);
 
             await collection.ReplaceOneAsync(
-                    x => x.Id.Equals(entity.Id), 
+                    x => x.GetId().Equals(entity.GetId()), 
                     entity, 
                     new UpdateOptions
                     {

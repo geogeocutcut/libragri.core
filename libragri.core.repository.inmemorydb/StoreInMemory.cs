@@ -49,7 +49,7 @@ namespace libragri.core.repository.inmemorydb
         {
             await Task.Run(()=>{
                 data.TryGetValue(typeof(TEntity),out var dataEntity);
-                dataEntity?.Remove(entity.Id);
+                dataEntity?.Remove(entity.GetId());
             });
         }
 
@@ -61,7 +61,7 @@ namespace libragri.core.repository.inmemorydb
                 {
                     data[typeof(TEntity)]= new Dictionary<TId,object>();
                 }
-                data[typeof(TEntity)][entity.Id]=entity;
+                data[typeof(TEntity)][entity.GetId()]=entity;
 
                 return entity;
             });
