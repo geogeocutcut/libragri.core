@@ -8,6 +8,7 @@ namespace libragri.core.repository.inmemorydb
     {
         protected IStore<TId> _store;
         protected IFactory _factory;
+        protected ITransaction _transaction;
 
         public AbstractUnitOfWorkInMemory(IFactory factory)
         {
@@ -17,20 +18,35 @@ namespace libragri.core.repository.inmemorydb
 
         public async Task CommitAsync()
         {
+            _transaction = null;
         }
 
 
-        public async Task BeginAsync()
+        public async Task<ITransaction> BeginAsync()
         {
+            if (_transaction != null)
+            {
+                return _transaction;
+            }
+            else
+            {
+                _transaction = new Transaction<TId>(this);
+                return _transaction;
+            }
         }
 
         public async Task RollbackAsync()
         {
+            _transaction = null;
         }
 
         
         public void Dispose()
         {
+            if(_transaction!=null)
+            {
+                RollbackAsync().Wait();
+            }
         }
 
         public IStore<TId> GetStore()

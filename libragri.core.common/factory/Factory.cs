@@ -18,7 +18,7 @@ namespace libragri.core.common
             }
 
         }
-
+        
         public void Register<TIObject>(TIObject classDef)
         {
             Configuration[typeof(TIObject)]=classDef;
@@ -30,5 +30,9 @@ namespace libragri.core.common
             Configuration[typeof(TIObject)]=typeof(TObject);
         }
 
+        public bool IsRegistered<TIObject>()
+        {
+            return Configuration.ContainsKey(typeof(TIObject));
+        }
     }
 }

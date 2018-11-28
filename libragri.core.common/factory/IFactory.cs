@@ -8,5 +8,7 @@ namespace libragri.core.common
 
         void Register<TIObject,TObject>();
         void Register<TIObject>(TIObject obj);
+
+        bool IsRegistered<TIObject>();
     }
 }
