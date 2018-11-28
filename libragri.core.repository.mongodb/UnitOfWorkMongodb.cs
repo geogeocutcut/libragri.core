@@ -6,11 +6,15 @@ namespace libragri.core.repository.mongodb
 {
     public abstract class AbstractUnitOfWorkMongodb<TId> : IUnitOfWork<TId>
     {
-        public IStore<TId> _store { get; set; }
-        public AbstractUnitOfWorkMongodb(IStore<TId> store )
+        private IStore<TId> _store;
+        private IFactory _factory;
+
+        public AbstractUnitOfWorkMongodb(IFactory factory)
         {
-            this._store=store;
+            this._factory = factory;
+            this._store = factory.Resolve<IStore<TId>>();
         }
+
         public async Task CommitAsync()
         {
         }
