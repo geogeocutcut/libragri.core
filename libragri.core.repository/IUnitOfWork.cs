@@ -1,3 +1,4 @@
+using libragri.core.common;
 using System;
 using System.Threading.Tasks;
 
@@ -9,5 +10,8 @@ namespace libragri.core.repository
         Task BeginAsync();
         Task CommitAsync();
         Task RollbackAsync();
+
+
+        Task<TRepository> GetRepository<TRepository>() where TRepository : IRepository<TId, Entity<TId>>;
     }
 }

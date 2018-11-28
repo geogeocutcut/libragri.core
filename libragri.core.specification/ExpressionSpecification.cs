@@ -10,7 +10,8 @@ namespace libragri.core.specification
             else
                 this.expression = expression;
         }
-
+        
+        
         public override bool IsSatisfiedBy(T o)   {
             return this.expression(o);
         }

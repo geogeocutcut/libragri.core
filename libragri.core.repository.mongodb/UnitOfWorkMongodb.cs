@@ -4,10 +4,10 @@ using libragri.core.repository;
 
 namespace libragri.core.repository.mongodb
 {
-    public class UnitOfWorkMongodb<TId> : IUnitOfWork<TId>
+    public abstract class AbstractUnitOfWorkMongodb<TId> : IUnitOfWork<TId>
     {
         public IStore<TId> _store { get; set; }
-        public UnitOfWorkMongodb(IStore<TId> store )
+        public AbstractUnitOfWorkMongodb(IStore<TId> store )
         {
             this._store=store;
         }
@@ -31,5 +31,7 @@ namespace libragri.core.repository.mongodb
         {
             return _store;
         }
+
+        public abstract Task<TRepository> GetRepository<TRepository>() where TRepository : IRepository<TId, Entity<TId>>;
     }
 }

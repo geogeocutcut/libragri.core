@@ -16,5 +16,6 @@ namespace libragri.core.repository
         Task<IList<TEntity>> GetAllAsync<TEntity>() where TEntity : Entity<TId>;
         Task<IList<TEntity>> FindAsync<TEntity>(System.Linq.Expressions.Expression<System.Func<TEntity, bool>> predicate) where TEntity : Entity<TId>;
 
+
     }
 }

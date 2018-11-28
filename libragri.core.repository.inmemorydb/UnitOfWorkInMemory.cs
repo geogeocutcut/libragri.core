@@ -4,11 +4,11 @@ using libragri.core.repository;
 
 namespace libragri.core.repository.inmemorydb
 {
-    public class UnitOfWorkInMemory<TId> : IUnitOfWork<TId>
+    public abstract class AbstractUnitOfWorkInMemory<TId> : IUnitOfWork<TId>
     {
         private IStore<TId> _store;
 
-        public UnitOfWorkInMemory(IStore<TId> store )
+        public AbstractUnitOfWorkInMemory(IStore<TId> store)
         {
             this._store=store;
         }
@@ -34,5 +34,7 @@ namespace libragri.core.repository.inmemorydb
         {
             return this._store;
         }
+
+        public abstract Task<TRepository> GetRepository<TRepository>() where TRepository : IRepository<TId, Entity<TId>>;
     }
 }
