@@ -6,8 +6,8 @@ namespace libragri.core.repository.inmemorydb
 {
     public abstract class AbstractUnitOfWorkInMemory<TId> : IUnitOfWork<TId>
     {
-        private IStore<TId> _store;
-        private IFactory _factory;
+        protected IStore<TId> _store;
+        protected IFactory _factory;
 
         public AbstractUnitOfWorkInMemory(IFactory factory)
         {
